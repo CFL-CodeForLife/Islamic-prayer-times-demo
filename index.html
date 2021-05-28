@@ -16,7 +16,7 @@
 			(async () => {
 				var res = await(await fetch(`https://api.pray.zone/v2/times/day.json?city=giza&date=${new Date().toJSON().split("T")[0]}`)).json();
 				console.log(res.results.datetime[0].times);
-				document.querySelector(".data").innerHTML = JSON.stringify(res.results.datetime[0].times,null,"</br>").replace(/{|}|"|,/g, "");
+				document.querySelector(".data").innerHTML = JSON.stringify(res.results.datetime[0].times,null,"</br>").replace(/[{}",]/g, "");
 			})();
 		</script>
 	</body>
