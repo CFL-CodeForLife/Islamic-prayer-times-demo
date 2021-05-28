@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Islamic prayer times Demo</title>
+	</head>
+	<body>
+		<main>
+			<p>disclaimer this is a demo <br />
+				city: giza</p>
+			<span class="data"></span>
+		</main>
+		<script>
+			(async () => {
+				var res = await(await fetch(`https://api.pray.zone/v2/times/day.json?city=giza&date=${new Date().toJSON().split("T")[0]}`)).json();
+				console.log(res.results.datetime[0].times);
+				document.querySelector(".data").innerHTML = JSON.stringify(res.results.datetime[0].times,null,"</br>").replace(/{|}|"|,/g, "");
+			})();
+		</script>
+	</body>
+</html>
