@@ -5,18 +5,88 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Islamic prayer times Demo</title>
+		<style>
+		*{
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+		}
+		main {
+            margin: 20px;
+			align-items: center;
+        }
+		div.container{
+			align-items: center;
+		}
+        table tr:nth-child(even) {
+            background-color: rgb(245, 255, 255);
+        }
+        table tr:nth-child(odd) {
+            background-color: rgb(180, 237, 241);
+        }
+        table th {
+            /* color: white; */
+            background-color: rgb(0, 255, 255);
+        }
+        table {
+            width: 40%;
+            background-color: #f1f1c1;
+        }
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 10px;
+        }
+		th, td{
+			width: 50%;
+		}
+		</style>
 	</head>
 	<body>
 		<main>
 			<p>disclaimer this is a demo <br />
 				city: giza</p>
-			<span class="data"></span>
+			<div class="container">
+				<table class="">
+					<tr>
+						<th></th>
+						<th>Time</th>
+					</tr>
+					<tr>
+						<td>Fajr:</td>
+						<td><span class="Fajr"></span> </td>
+					</tr>
+					<tr>
+						<td>Dhuhr:</td>
+						<td><span class="Dhuhr"></span> </td>
+					</tr>
+					<tr>
+						<td>Asr:</td>
+						<td><span class="Asr"></span> </td>
+					</tr>
+					<tr>
+						<td>Maghrib:</td>
+						<td><span class="Maghrib"></span> </td>
+					</tr>
+					<tr>
+						<td>Isha:</td>
+						<td><span class="Isha"></span> </td>
+					</tr>
+	  
+				</table>
+			</div>
 		</main>
 		<script>
 			(async () => {
-				var res = await(await fetch(`https://api.pray.zone/v2/times/day.json?city=giza&date=${new Date().toJSON().split("T")[0]}`)).json();
+				const res = await(await fetch(`https://api.pray.zone/v2/times/day.json?city=giza&date=${new Date().toJSON().split("T")[0]}`)).json();
 				console.log(res.results.datetime[0].times);
-				document.querySelector(".data").innerHTML = JSON.stringify(res.results.datetime[0].times,null,"</br>").replace(/[{}",]/g, "");
+				Object.keys(res.results.datetime[0].times).forEach(element => {
+					try {
+						document.querySelector(`.${element}`).innerHTML=(res.results.datetime[0].times[element].split(':')[0]>12)?(parseInt(res.results.datetime[0].times[element])-12)+':'+res.results.datetime[0].times[element].split(':')[1]:res.results.datetime[0].times[element]
+					} catch (error) {
+						// console.log(error)						
+					}
+				});
 			})();
 		</script>
 	</body>
